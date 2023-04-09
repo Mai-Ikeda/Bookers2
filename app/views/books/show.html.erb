@@ -1,0 +1,36 @@
+<div class="container mx-auto px-5 px-sm-0">
+
+  <div class="row">
+    <div class="col-md-3">
+
+      <%= render 'books/side', book:@book, user:@user %>
+
+    </div>
+
+    <div class="col-md-8 offset-md-1">
+      <h2>Book detail</h2>
+      <table class="table table-hover table-inverse">
+        <thead>
+            <tr>
+              <td>
+                <%= link_to user_path(@user) do %>
+                  <% if @user.profile_image.attached? %>
+                    <%= image_tag @user.profile_image,size:"80x80" %>
+                  <% else %>
+                    <%= image_tag 'no_image',size:"80x80" %>
+                  <% end %><br>
+                  <%= @user.name %>
+                <% end %>
+              </td>
+              <td><%= link_to @book_detail.title, book_path(@book_detail) %></td>
+              <td><%= @book_detail.body %></td>
+            <% if user_signed_in? && current_user.id == @user.id %>
+              <td><%= link_to "Edit", edit_book_path(@book_detail), class:"btn btn-success btn-sm" %></td>
+              <td><%= link_to "Destroy", book_path(@book_detail), class:"btn btn-danger btn-sm",method: :delete, "data-confirm" => "本当に削除しますか？" %></td>
+            <% end %>
+            </tr>
+          </thead>
+      </table>
+    </div>
+  </div>
+</div>

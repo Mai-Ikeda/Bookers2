@@ -1,0 +1,83 @@
+<div class="container mx-auto">
+
+  <div class="row">
+    <div class="col-md-3">
+      <h2>User info</h2>
+      <% if @user_info.profile_image.attached? %>
+        <%= image_tag @user_info.profile_image,size:"100x100" %>
+      <% else %>
+        <%= image_tag 'no_image',size:"100x100" %>
+      <% end %>
+      <table class="table">
+        <tbody>
+          <tr>
+            <th>name</th>
+            <th><%= @user_info.name %></th>
+          </tr>
+          <tr>
+            <th>introduction</th>
+            <th><%= @user_info.introduction %></th>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="row">
+      <%= link_to edit_user_path(@user_info), type:"button",class:"btn btn-outline-secondary btn-block" do %>
+        <i class="fas fa-user-cog"></i>
+      <% end %>
+      </div>
+
+      <h2 class="mt-3">New book</h2>
+      <% if @book.errors.any? %>
+        <h2><%= @book.errors.count %>errors prohibited this user from being saved:</h2>
+        <ul>
+          <% @book.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      <% end %>
+
+      <%= form_with model: @book do |f| %>
+        <div class="form_group mb-3">
+          <label for="book-title">Title</label><br>
+            <%= f.text_field :title, class:"form-control" %>
+        </div>
+        <div class="form_group mb-3">
+          <label for="book-opinion">Opinion</label><br>
+            <%= f.text_area :body, rows:2, class:"form-control" %>
+        </div>
+        <%= f.submit 'Create Book', class:"btn btn-success" %>
+      <% end %>
+
+
+    </div>
+
+    <div class="col-md-8 offset-md-1">
+      <h2>Books</h2>
+      <table class="table table-hover table-inverse">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Title</th>
+            <th>opinion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @books.each do |book| %>
+          <tr>
+            <td>
+              <% if @user_info.profile_image.attached? %>
+                <%= link_to image_tag(@user_info.profile_image,size:"80x80",class:"image"), user_path(@user_info) %>
+              <% else %>
+                <%= link_to image_tag("no_image",size:"80x80", class:"image"), user_path(@user_info) %>
+              <% end %>
+            </td>
+            <td><%= link_to book.title, book_path(book) %></th>
+            <td><%= book.body %></th>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
